@@ -41,6 +41,17 @@ async function run() {
     });
 
     //bookings related
+    app.get('/bookings', async (req, res) => {
+      console.log(req.query);
+      let query = {};
+      if (req.query?.email) {
+        query.email = req.query.email;
+      }
+      const bookings = await bookingCollection.find(query).toArray();
+      console.log(bookings);
+      res.send(bookings);
+    });
+
     app.post('/checkout', async (req, res) => {
       const newBooking = req.body;
       const result = await bookingCollection.insertOne(newBooking);
